@@ -1,4 +1,4 @@
-const CACHE_NAME = "adel-reading-quest-v4";
+const CACHE_NAME = "adel-reading-quest-v5";
 const ASSETS = [
   "./",
   "./index.html",
