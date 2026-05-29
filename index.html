@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Читательский квест Адель</title>
+  <title>Читательский квест</title>
   <meta name="theme-color" content="#765be0">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/shared/icon.png" type="image/png">
@@ -2708,7 +2708,7 @@
     const WINNER_COVER_PAGES = 600;
     const WINNER_COVER_BOOKS = 8;
     const phrases = [
-      "Адель, котики аплодируют лапками! +монетки в копилку.",
+      "Котики аплодируют лапками! +монетки в копилку.",
       "Мур-миссия выполнена. Книжная тропинка стала длиннее!",
       "Ты поймала новый кусочек знания. Это почти магия.",
       "Книжный сундук звякнул монетками. Продолжаем квест!",
@@ -3253,7 +3253,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Летний читательский итог Адель</title>
+  <title>Летний читательский итог</title>
   <style>
     @font-face { font-family: Nunito; src: url("${fontRegular}") format("truetype"); font-weight: 400; }
     @font-face { font-family: Nunito; src: url("${fontBold}") format("truetype"); font-weight: 700; }
@@ -3332,7 +3332,7 @@
 <body>
   <main class="sheet">
     <section class="hero">
-      <h1>Летний читательский итог Адель</h1>
+      <h1>Летний читательский итог</h1>
       <p>Красивый след книжного лета. Сформировано ${escapeHtml(generatedAt)}.</p>
     </section>
 
@@ -3372,7 +3372,7 @@
       `).join("") : `<article class="card muted">Наклейки еще впереди.</article>`}
     </section>
 
-    <h2>Что Адель узнала</h2>
+    <h2>Что ты узнала</h2>
     <section class="finds">
       ${finds.length ? finds.map(entry => `
         <article class="find">
@@ -3382,7 +3382,7 @@
       `).join("") : `<article class="card muted">Здесь появятся книжные находки.</article>`}
     </section>
 
-    <div class="footer">Читательский квест Адель</div>
+    <div class="footer">Читательский квест</div>
   </main>
   <button class="print-button" onclick="window.print()">Печать / PDF</button>
 </body>
