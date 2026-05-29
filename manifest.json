@@ -11,9 +11,9 @@
   "icons": [
     {
       "src": "assets/shared/icon.png",
-      "sizes": "1058x1046",
+      "sizes": "192x190",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
