@@ -1,0 +1,3593 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Читательский квест Адель</title>
+  <meta name="theme-color" content="#765be0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/shared/icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/shared/icon.png">
+  <style>
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/Nunito-Regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/Nunito-SemiBold.ttf") format("truetype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/Nunito-Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --ink: #202343;
+      --muted: #69718f;
+      --line: #dfe5ff;
+      --paper: #f5f7ff;
+      --panel: #ffffff;
+      --surface: rgba(255, 255, 255, 0.86);
+      --surface-strong: rgba(255, 255, 255, 0.96);
+      --mint: #c6eeff;
+      --mint-strong: #6574ed;
+      --coral: #7a67e8;
+      --coral-soft: #edf0ff;
+      --lemon: #bfefff;
+      --sky: #cfeeff;
+      --blue: #547dea;
+      --lilac: #e4ddff;
+      --plum: #7358dd;
+      --gold: #ffd76a;
+      --shadow: 0 22px 48px rgba(44, 56, 130, 0.14);
+      --soft-shadow: 0 12px 28px rgba(44, 56, 130, 0.10);
+      --radius: 22px;
+      color-scheme: light;
+      font-family: "Nunito", "Trebuchet MS", "Arial Rounded MT Bold", ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f8fbff 0%, #eef3ff 54%, #f7f4ff 100%);
+      overflow-x: hidden;
+      font-weight: 500;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .app {
+      width: min(430px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 14px 12px 96px;
+    }
+
+    .game-hero {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.52);
+      border-radius: 28px;
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 34%),
+        linear-gradient(135deg, #765be0 0%, #5e82ee 56%, #63d1ef 100%);
+      box-shadow: 0 22px 42px rgba(78, 95, 207, 0.26), inset 0 -1px 0 rgba(255,255,255,0.16);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 48%, transparent 100%);
+      transform: translateX(-70%) skewX(-18deg);
+      opacity: 0.52;
+      pointer-events: none;
+    }
+
+    .mascot {
+      width: 72px;
+      height: 72px;
+      justify-self: center;
+      filter: drop-shadow(0 12px 14px rgba(20, 30, 83, 0.22));
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.58rem;
+      line-height: 1.02;
+      letter-spacing: 0;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      color: rgba(255,255,255,0.86);
+      font-size: 0.92rem;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+
+    .level-card {
+      display: grid;
+      gap: 7px;
+      padding: 12px 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(113, 97, 224, 0.16);
+      background: var(--surface-strong);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.88);
+    }
+
+    .level-row {
+      min-height: 52px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 54px;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    .level-copy {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .level-copy span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .level-copy strong {
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.18;
+      font-weight: 700;
+    }
+
+    .level-pill {
+      width: 52px;
+      height: 52px;
+      display: block;
+      justify-self: end;
+      filter: drop-shadow(0 8px 9px rgba(137, 100, 28, 0.18));
+    }
+
+    .level-star {
+      width: 100%;
+      height: 100%;
+    }
+
+    .level-track {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #edf1ff;
+      border: 1px solid rgba(115, 88, 221, 0.10);
+      box-shadow: inset 0 2px 4px rgba(41, 54, 120, 0.08);
+    }
+
+    .level-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #8168f0, #68cef0);
+      transition: width 360ms ease;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat {
+      min-height: 66px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 10px 10px 11px;
+      border: 1px solid rgba(91,139,241,0.15);
+      border-radius: 22px;
+      background: var(--surface-strong);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.9);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.32rem;
+      line-height: 1.05;
+      color: var(--plum);
+      font-weight: 700;
+    }
+
+    .stat span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .coin-stack {
+      width: 24px;
+      height: 24px;
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .coin-stack.small {
+      width: 20px;
+      height: 20px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .screen {
+      display: none;
+      animation: screenIn 220ms ease;
+    }
+
+    .screen.active {
+      display: grid;
+      gap: 14px;
+    }
+
+    @keyframes screenIn {
+      from { transform: translateY(8px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid rgba(91,139,241,0.16);
+      border-radius: 26px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+    }
+
+    details.panel summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    details.panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.panel:not([open]) .panel-head {
+      border-bottom: 0;
+    }
+
+    .chevron {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(115, 88, 221, 0.12);
+      color: var(--muted);
+      font-weight: 700;
+      transition: transform 200ms ease;
+    }
+
+    details[open] .chevron {
+      transform: rotate(90deg);
+    }
+
+    .panel-head {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 16px;
+      border-bottom: 1px solid rgba(115, 88, 221, 0.10);
+      background:
+        linear-gradient(90deg, rgba(231,226,255,0.92), rgba(213,240,255,0.76)),
+        rgba(255,255,255,0.72);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .panel-title h2 {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.2;
+      font-weight: 700;
+      min-width: 0;
+    }
+
+    .icon-badge {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #effbff, var(--lemon));
+      border: 1px solid rgba(96,112,232,0.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 7px 14px rgba(74, 92, 180, 0.10);
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .focus-panel {
+      border-color: rgba(115, 88, 221, 0.20);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,250,255,0.88)),
+        var(--surface-strong);
+    }
+
+    .focus-panel .panel-head {
+      color: #fff;
+      border-bottom-color: rgba(36,48,67,0.1);
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 35%),
+        linear-gradient(90deg, var(--plum), #5a83ef 62%, #60cdea);
+    }
+
+    .focus-panel .icon-badge {
+      background: var(--lemon);
+      color: var(--ink);
+    }
+
+    .quest-note {
+      margin: 0 0 14px;
+      padding: 12px 13px;
+      border: 1px solid rgba(105,80,201,0.12);
+      border-radius: 18px;
+      background: linear-gradient(90deg, rgba(231,226,255,0.72), rgba(228,248,255,0.62));
+      color: #463a83;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .reader-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(96px, 140px);
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .field-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #3f347d;
+    }
+
+    .step-dot {
+      position: relative;
+      width: 34px;
+      height: 32px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 34px;
+      color: #211b43;
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.42);
+      padding-top: 5px;
+      z-index: 0;
+    }
+
+    .step-dot::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 2px;
+      width: 24px;
+      height: 21px;
+      border-radius: 58% 58% 50% 50%;
+      background: linear-gradient(160deg, #ffe58c, #ffd05e 58%, #f6b83d);
+      box-shadow: 0 8px 14px rgba(137,100,28,0.13), inset 0 1px 0 rgba(255,255,255,0.62);
+      transform: translateX(-50%) rotate(-3deg);
+      z-index: -1;
+    }
+
+    .step-dot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 1px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ffd86b;
+      box-shadow:
+        -9px 5px 0 #ffd86b,
+        9px 5px 0 #ffd86b;
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(115, 88, 221, 0.18);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.92);
+      color: var(--ink);
+      padding: 12px 13px;
+      outline: 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    textarea {
+      min-height: 104px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(84,125,234,0.13);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 13px;
+      border-radius: 18px;
+      color: #152033;
+      background: var(--mint);
+      font-weight: 600;
+      box-shadow: 0 10px 20px rgba(74, 92, 180, 0.10), inset 0 1px 0 rgba(255,255,255,0.68);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .btn:active,
+    .nav-btn:active,
+    .mini:active,
+    .star:active,
+    .swatch:active {
+      transform: scale(0.98);
+    }
+
+    .btn.primary {
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0.20), rgba(255,255,255,0) 35%),
+        linear-gradient(90deg, var(--plum), #4f7ded);
+      min-height: 56px;
+      width: 100%;
+      font-size: 1.05rem;
+      font-weight: 700;
+      animation: buttonPulse 1800ms ease-in-out infinite;
+    }
+
+    @keyframes buttonPulse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    .btn.coral {
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0.20), rgba(255,255,255,0) 35%),
+        linear-gradient(90deg, var(--coral), #4f8df0);
+    }
+
+    .btn.ghost {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(115, 88, 221, 0.18);
+      box-shadow: 0 8px 18px rgba(74, 92, 180, 0.07);
+      color: var(--ink);
+    }
+
+    .notice {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 40;
+      width: min(360px, calc(100% - 44px));
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: linear-gradient(90deg, rgba(237,240,255,0.96), rgba(231,247,255,0.96));
+      border: 1px solid rgba(116,99,223,0.18);
+      font-weight: 700;
+      display: block;
+      box-shadow: 0 18px 38px rgba(42,54,126,0.18), inset 0 1px 0 rgba(255,255,255,0.88);
+      text-align: center;
+      transform: translate(-50%, -50%) scale(0.94);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease, transform 260ms ease;
+    }
+
+    .notice.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .notice.hide {
+      opacity: 0;
+      transform: translate(-50%, -50%) translateY(12px) scale(0.96);
+    }
+
+    @keyframes pop {
+      from { transform: translateX(-50%) translateY(8px) scale(0.98); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+    }
+
+    .progress-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .progress-row {
+      display: grid;
+      gap: 7px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .track {
+      position: relative;
+      height: 20px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #edf1ff;
+      border: 1px solid rgba(115, 88, 221, 0.10);
+      box-shadow: inset 0 2px 4px rgba(41, 54, 120, 0.08);
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0) 48%),
+        linear-gradient(90deg, var(--plum), #65c9f2);
+      transition: width 420ms ease;
+    }
+
+    .paw-path {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .paw {
+      min-width: 0;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(238,242,246,0.82);
+      color: #9aa7b7;
+      font-size: 0.92rem;
+      border: 1px solid rgba(36,48,67,0.08);
+    }
+
+    .paw.done {
+      background: linear-gradient(180deg, #f2edff, var(--mint));
+      color: #44349a;
+      box-shadow: 0 7px 14px rgba(84,125,234,0.10);
+    }
+
+    .collection-block {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 22px;
+      border: 1px solid rgba(115,88,221,0.12);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .collection-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .collection-head h3 {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.16;
+    }
+
+    .collection-head span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .sticker-album {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .sticker {
+      min-height: 72px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 4px;
+      padding: 8px 5px;
+      border-radius: 18px;
+      border: 1px solid rgba(115,88,221,0.12);
+      background: rgba(255,255,255,0.9);
+      color: #342a74;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.82), 0 8px 16px rgba(74,92,180,0.07);
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.68rem;
+      line-height: 1.08;
+    }
+
+    .sticker-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f8fbff, #e8ecff);
+      font-size: 1.28rem;
+    }
+
+    .sticker small {
+      color: var(--muted);
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1.08;
+    }
+
+    .sticker.locked {
+      color: #8a93a6;
+      background: rgba(246,248,251,0.86);
+      filter: grayscale(0.65);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      padding: 4px;
+      margin-bottom: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(115, 88, 221, 0.12);
+      background: rgba(247,249,251,0.78);
+    }
+
+    .tab {
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      padding: 7px 10px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .tab.active {
+      background: rgba(255,255,255,0.94);
+      color: var(--ink);
+      box-shadow: 0 6px 16px rgba(74,92,180,0.10);
+    }
+
+    .book-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(96px, 0.42fr);
+      gap: 12px;
+    }
+
+    .cover-options {
+      display: grid;
+      grid-template-columns: repeat(8, 34px);
+      gap: 7px;
+      justify-content: start;
+    }
+
+    .swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 7px 14px rgba(74,92,180,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .swatch.active {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(115,88,221,0.12), inset 0 1px 0 rgba(255,255,255,0.75);
+    }
+
+    .swatch.locked {
+      background: #eef2f6 !important;
+      color: #7b8794;
+    }
+
+    .swatch.locked::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10V8a5 5 0 0 1 10 0v2' fill='none' stroke='%237358dd' stroke-width='2.2' stroke-linecap='round'/%3E%3Crect x='5' y='10' width='14' height='10' rx='2.5' fill='%237358dd'/%3E%3Ccircle cx='12' cy='15' r='1.3' fill='white'/%3E%3C/svg%3E") center / 18px 18px no-repeat,
+        rgba(255,255,255,0.5);
+    }
+
+    .rating {
+      display: flex;
+      gap: 4px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .star {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #eef2f6;
+      color: #9aa7b7;
+      font-size: 1.06rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.82);
+    }
+
+    .star.active {
+      background: linear-gradient(180deg, #fff3b0, var(--gold));
+      color: #6f4f15;
+      box-shadow: 0 7px 14px rgba(137, 100, 28, 0.12);
+    }
+
+    .shelf {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .shelf-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .book {
+      min-height: 190px;
+      display: grid;
+      grid-template-rows: 112px auto;
+      border-radius: 22px;
+      border: 1px solid rgba(115, 88, 221, 0.12);
+      background: rgba(255,255,255,0.92);
+      overflow: hidden;
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .cover {
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      color: rgba(36,48,67,0.78);
+      font-size: 2.4rem;
+      background: var(--book-color, var(--sky));
+      border-bottom: 1px solid rgba(36,48,67,0.06);
+    }
+
+    .book-info {
+      padding: 10px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .book-info strong {
+      line-height: 1.15;
+      word-break: break-word;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .book-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .mini-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .mini {
+      min-height: 30px;
+      border-radius: 12px;
+      background: #f2f5f8;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .mini.approve {
+      color: #fff;
+      background: linear-gradient(90deg, var(--plum), var(--blue));
+    }
+
+    .empty {
+      padding: 18px;
+      border: 1px dashed rgba(115,88,221,0.22);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.70);
+      color: var(--muted);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .entry {
+      display: grid;
+      gap: 7px;
+      padding: 13px;
+      border: 1px solid rgba(115, 88, 221, 0.12);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.9);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .entry-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .entry-head span:first-child {
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    .entry p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.32;
+      font-size: 0.84rem;
+      word-break: break-word;
+    }
+
+    .status {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: #e8ecff;
+      color: var(--plum);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .status.pending {
+      background: #eef6ff;
+      color: #4c669d;
+    }
+
+    .status.approved {
+      background: #e8ecff;
+      color: #543cb8;
+    }
+
+    .drawer {
+      display: none;
+    }
+
+    .drawer.active {
+      display: block;
+    }
+
+    .game-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      z-index: 20;
+      width: min(406px, calc(100% - 24px));
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 7px;
+      border: 1px solid rgba(115, 88, 221, 0.14);
+      border-radius: 26px;
+      background: rgba(255,255,255,0.90);
+      box-shadow: 0 18px 42px rgba(42,54,126,0.22), inset 0 1px 0 rgba(255,255,255,0.94);
+      transform: translateX(-50%);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-btn {
+      min-height: 58px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 2px;
+      padding: 7px 2px;
+      border-radius: 20px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 0.64rem;
+      font-weight: 600;
+    }
+
+    .nav-btn span {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .nav-btn.active {
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.20), rgba(255,255,255,0) 45%),
+        linear-gradient(180deg, var(--plum), var(--blue));
+      box-shadow: 0 9px 18px rgba(84, 125, 234, 0.22);
+    }
+
+    /* Visual refresh based on the supplied design screens. */
+    :root {
+      --ink: #090b27;
+      --muted: #5f6380;
+      --line: #ddd5ff;
+      --paper: #fbfaff;
+      --panel: #ffffff;
+      --surface: #ffffff;
+      --surface-strong: #ffffff;
+      --plum: #7438f4;
+      --violet: #8748ff;
+      --violet-soft: #f1eaff;
+      --gold: #f6a200;
+      --shadow: 0 18px 38px rgba(53, 43, 120, 0.12);
+      --soft-shadow: 0 10px 22px rgba(45, 38, 105, 0.10);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 0%, rgba(238,226,255,0.9) 0, rgba(238,226,255,0) 34%),
+        linear-gradient(180deg, #fffefe 0%, #fbfaff 58%, #f7f2ff 100%);
+      color: var(--ink);
+    }
+
+    .app {
+      width: min(470px, 100%);
+      padding: 12px 10px 100px;
+    }
+
+    .brand {
+      grid-template-columns: minmax(112px, 36%) minmax(0, 1fr);
+      min-height: 172px;
+      padding: 12px 16px;
+      border: 1.5px solid #d4c3ff;
+      border-radius: 24px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 84% 18%, rgba(255,255,255,0.96) 0 16%, rgba(255,255,255,0) 44%),
+        linear-gradient(135deg, #f6efff 0%, #ffffff 54%, #f1eaff 100%);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .brand::after {
+      right: -18%;
+      bottom: -44%;
+      inset: auto -18% -44% auto;
+      width: 75%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(151,104,255,0.08);
+      transform: none;
+      opacity: 1;
+    }
+
+    .mascot-photo {
+      width: 100%;
+      max-width: 156px;
+      aspect-ratio: 1;
+      object-fit: contain;
+      justify-self: center;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 13px 10px rgba(30, 22, 92, 0.12));
+    }
+
+    .brand > svg.mascot {
+      display: none;
+    }
+
+    .brand h1 {
+      font-size: clamp(2.1rem, 10vw, 3.05rem);
+      line-height: 0.98;
+      color: var(--ink);
+    }
+
+    .brand p {
+      margin-top: 14px;
+      color: #242845;
+      font-size: clamp(1rem, 4.2vw, 1.35rem);
+    }
+
+    .level-card {
+      grid-template-columns: 82px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      border-color: rgba(16, 18, 46, 0.10);
+      position: relative;
+    }
+
+    .level-card::before {
+      content: "";
+      width: 74px;
+      aspect-ratio: 1;
+      display: block;
+      background: url("assets/mission/mission-level.png") center / contain no-repeat;
+      filter: drop-shadow(0 8px 10px rgba(78, 49, 162, 0.18));
+    }
+
+    .level-row {
+      display: contents;
+      min-height: 76px;
+    }
+
+    .level-copy span {
+      color: var(--violet);
+      font-size: 1rem;
+    }
+
+    .level-copy strong {
+      font-size: clamp(1.35rem, 6.5vw, 2.05rem);
+      line-height: 1.08;
+    }
+
+    .level-pill {
+      display: grid;
+      place-items: center;
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: 74px;
+      height: 74px;
+      filter: none;
+      z-index: 1;
+    }
+
+    .level-star path {
+      display: none;
+    }
+
+    .level-star text {
+      font-size: 24px;
+    }
+
+    .level-track {
+      grid-column: 2;
+      height: 12px;
+    }
+
+    .level-fill {
+      background: linear-gradient(90deg, #7b36f4, #9a5aff);
+    }
+
+    .quick-stats {
+      gap: 8px;
+    }
+
+    .stat {
+      min-height: 78px;
+      grid-template-columns: 52px minmax(0, 1fr);
+      align-items: center;
+      justify-items: start;
+      gap: 10px;
+      padding: 10px 14px;
+      border-color: rgba(16, 18, 46, 0.10);
+      border-radius: 17px;
+      text-align: left;
+    }
+
+    .stat::before {
+      content: "";
+      width: 62px;
+      aspect-ratio: 1;
+      grid-row: 1 / span 2;
+      align-self: center;
+      justify-self: center;
+      border-radius: 0;
+      background: var(--stat-icon) center / contain no-repeat;
+      box-shadow: none;
+    }
+
+    .stat.pages { --stat-icon: url("assets/mission/mission-book.png"); --stat-bg: #efe7ff; }
+    .stat.books { --stat-icon: url("assets/mission/mission-.png"); --stat-bg: #ffe2a1; }
+    .stat.streak { --stat-icon: url("assets/mission/mission-calendar.png"); --stat-bg: #ffd1d3; }
+    .stat.coins { --stat-icon: url("assets/mission/mission-coin.png"); --stat-bg: #ffe4a3; }
+    .stat .coin-stack { display: none; }
+
+    .stat strong {
+      font-size: 2rem;
+      color: #000;
+      align-self: end;
+      line-height: 1;
+    }
+
+    .stat span {
+      margin-top: -7px;
+      color: #14172f;
+      font-size: 0.96rem;
+      white-space: normal;
+      align-self: start;
+    }
+
+    .panel {
+      position: relative;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #f1e9ff 0 98px, #ffffff 98px 100%);
+      border-color: #d4c3ff;
+    }
+
+    .panel-head {
+      min-height: 108px;
+      padding: 22px 18px 24px;
+      background:
+        radial-gradient(circle at 82% 20%, rgba(255,255,255,0.7) 0 20%, rgba(255,255,255,0) 42%),
+        linear-gradient(90deg, #efe7ff, #f7f1ff);
+      overflow: visible;
+      position: relative;
+    }
+
+    .panel-head::after {
+      content: "";
+      position: absolute;
+      right: 14px;
+      bottom: -12px;
+      width: 112px;
+      aspect-ratio: 1;
+      background: url("assets/shared/secondary-cat.png") center / contain no-repeat;
+      pointer-events: none;
+      filter: drop-shadow(0 8px 8px rgba(55, 39, 118, 0.12));
+    }
+
+    [data-screen="mission"] .panel-head::after {
+      right: 18px;
+      bottom: -2px;
+      width: 108px;
+      background-image: url("assets/shared/mission-cat.png");
+      background-position: center bottom;
+    }
+
+    [data-screen="map"] .panel-head::after {
+      right: 18px;
+      bottom: -2px;
+      width: 108px;
+      background-image: url("assets/shared/album-cat.png");
+      background-position: center bottom;
+    }
+
+    [data-screen="shelf"] .panel-head::after {
+      right: 18px;
+      bottom: -2px;
+      width: 108px;
+      background-image: url("assets/shared/books-cat.png");
+      background-position: center bottom;
+    }
+
+    [data-screen="journal"] .panel-head::after {
+      right: 18px;
+      bottom: -2px;
+      width: 108px;
+      background-image: url("assets/shared/journal-cat.png");
+      background-position: center bottom;
+    }
+
+    [data-screen="mission"] .panel-head {
+      min-height: 112px;
+      padding-top: 22px;
+      padding-bottom: 20px;
+    }
+
+    [data-screen="map"] .panel-head {
+      min-height: 112px;
+      padding-top: 22px;
+      padding-bottom: 20px;
+    }
+
+    [data-screen="shelf"] .panel-head {
+      min-height: 112px;
+      padding-top: 22px;
+      padding-bottom: 20px;
+    }
+
+    [data-screen="journal"] .panel-head {
+      min-height: 112px;
+      padding-top: 22px;
+      padding-bottom: 20px;
+    }
+
+    [data-screen="mission"] .panel-title h2 {
+      font-size: clamp(1.24rem, 5.1vw, 1.55rem);
+    }
+
+    [data-screen="mission"] .icon-badge {
+      width: 74px;
+      height: 74px;
+    }
+
+    .panel-title {
+      gap: 12px;
+      padding-right: 96px;
+    }
+
+    .panel-title h2 {
+      font-size: clamp(1.42rem, 5.9vw, 1.9rem);
+      line-height: 1;
+    }
+
+    .icon-badge {
+      width: 56px;
+      height: 56px;
+      background: #ffffff;
+    }
+
+    .panel-body {
+      padding: 0 18px 18px;
+      background: #ffffff;
+      border-radius: 20px;
+    }
+
+    .focus-panel .panel-head {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 80% 28%, rgba(255,255,255,0.72) 0 18%, rgba(255,255,255,0) 42%),
+        linear-gradient(90deg, #e7d8ff, #f4edff);
+    }
+
+    .focus-panel .icon-badge {
+      background: #ffffff;
+    }
+
+    [data-screen="mission"] .icon-badge {
+      width: 74px;
+      height: 74px;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    [data-screen="journal"] .icon-badge {
+      width: 74px;
+      height: 74px;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .quest-note {
+      margin: -42px 0 16px 78px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #252845;
+    }
+
+    .reader-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .field {
+      grid-template-columns: 42px minmax(112px, 138px) minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .field-label {
+      display: contents;
+      color: #14172f;
+      font-size: 1rem;
+    }
+
+    .step-dot {
+      width: 38px;
+      height: 38px;
+      color: #fff;
+      font-size: 1.2rem;
+      padding-top: 0;
+      text-shadow: none;
+    }
+
+    .step-dot::before {
+      width: 38px;
+      height: 38px;
+      bottom: 0;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #9c63ff, #7538f4);
+      transform: translateX(-50%);
+    }
+
+    .step-dot::after {
+      display: none;
+    }
+
+    input,
+    textarea,
+    select {
+      border-color: #d9d9e6;
+      border-radius: 16px;
+    }
+
+    textarea {
+      min-height: 92px;
+    }
+
+    .actions {
+      grid-template-columns: 1fr 0.86fr;
+      gap: 12px;
+    }
+
+    .btn {
+      min-height: 54px;
+      border-radius: 16px;
+      background: #ffffff;
+    }
+
+    .btn.primary,
+    .btn.coral {
+      min-height: 62px;
+      color: #ffffff;
+      background: linear-gradient(180deg, #8d47ff, #6e2ff2);
+      border: 1px solid #4e1bd6;
+      animation: none;
+      box-shadow: 0 10px 0 #4d20cb, 0 14px 24px rgba(77,32,203,0.18);
+    }
+
+    .btn.ghost {
+      color: var(--violet);
+      border-color: #c7bddf;
+    }
+
+    .collection-block {
+      margin-top: 0;
+      padding: 16px;
+      border-radius: 18px 18px 24px 24px;
+      border: 0;
+      background: #ffffff;
+    }
+
+    .collection-head {
+      margin-bottom: 14px;
+    }
+
+    .collection-head h3,
+    .collection-head span {
+      font-size: 1.08rem;
+    }
+
+    .collection-head span {
+      color: var(--violet);
+    }
+
+    .sticker-section {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid #e2d7ff;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbf8ff 100%);
+      box-shadow: 0 10px 22px rgba(80, 63, 160, 0.06);
+    }
+
+    .sticker-section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 2px 2px;
+    }
+
+    .sticker-section-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 1.08rem;
+      line-height: 1.15;
+    }
+
+    .sticker-section-head span {
+      color: var(--violet);
+      font-size: 0.82rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .sticker-album {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .sticker {
+      min-height: 118px;
+      border-radius: 14px;
+      border: 1px solid #ddd0ff;
+      background: #fbf9ff;
+      padding: 8px 5px 7px;
+      font-size: 0.72rem;
+      line-height: 1.08;
+    }
+
+    .sticker-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      background: transparent;
+      font-size: 2rem;
+    }
+
+    .sticker-label {
+      display: grid;
+      gap: 3px;
+      justify-items: center;
+    }
+
+    .sticker-label strong {
+      color: var(--ink);
+      font-size: 0.72rem;
+      font-weight: bolder;
+      line-height: 1.05;
+    }
+
+    .sticker small,
+    .sticker > span:not(.sticker-icon) {
+      display: block;
+      color: var(--ink);
+      font-size: 0.72rem;
+      font-weight: bolder;
+      line-height: 1.08;
+    }
+
+    .sticker.locked {
+      color: #9b8bdc;
+      background: #fdfbff;
+      border-style: dashed;
+      border-color: #cdb9ff;
+      filter: none;
+    }
+
+    .shelf {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .book {
+      min-height: 92px;
+      grid-template-columns: 72px minmax(0, 1fr);
+      grid-template-rows: 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      border-color: rgba(16,18,46,0.08);
+      background: #ffffff;
+    }
+
+    .cover {
+      width: 66px;
+      height: 66px;
+      margin: 0;
+      border-radius: 50%;
+      border-bottom: 0;
+      font-size: 0;
+      position: relative;
+    }
+
+    .cover::before {
+      content: "";
+      width: 42px;
+      aspect-ratio: 1;
+      background: url("assets/album/book.png") center / contain no-repeat;
+      filter: drop-shadow(0 7px 7px rgba(0,0,0,0.12));
+    }
+
+    .book-info {
+      padding: 0;
+      align-content: center;
+      gap: 5px;
+    }
+
+    .book-info strong {
+      font-size: 1rem;
+      grid-row: 2;
+    }
+
+    .book-info p {
+      font-size: 0.88rem;
+    }
+
+    .book-info p:first-of-type {
+      grid-row: 1;
+    }
+
+    [data-screen="shelf"] .book-info .star-svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .timeline {
+      gap: 0;
+      position: relative;
+      padding-left: 72px;
+    }
+
+    .entry {
+      gap: 8px;
+      padding: 14px 0 14px 16px;
+      border: 0;
+      border-left: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      position: relative;
+    }
+
+    .entry::after {
+      content: "";
+      position: absolute;
+      left: -44px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #d6c4ff;
+      z-index: 0;
+    }
+
+    .entry::before {
+      content: "";
+      position: absolute;
+      left: -71px;
+      top: 12px;
+      width: 54px;
+      aspect-ratio: 1;
+      border-radius: 0;
+      background: var(--entry-icon) center / contain no-repeat;
+      z-index: 1;
+    }
+
+    .entry.type-book { --entry-icon: url("assets/journal/journal-books.png"); }
+    .entry.type-entry { --entry-icon: url("assets/journal/journal-quote.png"); }
+
+    .entry-head {
+      font-size: 1.02rem;
+    }
+
+    .entry p {
+      font-size: 0.94rem;
+    }
+
+    .status.pending {
+      color: #ff6a20;
+      background: #fff5df;
+    }
+
+    .status.approved {
+      color: #24712b;
+      background: #e2f6dc;
+    }
+
+    .game-nav {
+      bottom: 10px;
+      width: min(450px, calc(100% - 18px));
+      border-radius: 24px;
+    }
+
+    .nav-btn {
+      min-height: 64px;
+      border-radius: 18px;
+      color: #13162f;
+      font-size: 0.78rem;
+    }
+
+    .nav-btn span {
+      width: 38px;
+      height: 38px;
+      color: currentColor;
+    }
+
+    .nav-btn.active {
+      color: var(--violet);
+      background: #f1eaff;
+      box-shadow: none;
+    }
+
+    .svg-icon,
+    .nav-icon,
+    .star-svg,
+    .lock-svg {
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      vertical-align: -0.16em;
+    }
+
+    .nav-btn img.nav-icon {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      vertical-align: middle;
+    }
+
+    .starline {
+      display: inline-flex;
+      gap: 2px;
+      color: #f6a200;
+      white-space: nowrap;
+    }
+
+    .starline .muted-star {
+      color: #d6d8e2;
+    }
+
+    .asset-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media (max-width: 850px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        padding: 10px 10px 92px;
+      }
+
+      .quick-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stat {
+        min-height: 58px;
+        padding: 8px;
+      }
+
+      .stat strong {
+        font-size: 1.08rem;
+      }
+
+      .stat span {
+        font-size: 0.7rem;
+      }
+
+      .panel-head {
+        padding: 12px;
+      }
+
+      .panel-body {
+        padding: 12px;
+      }
+
+      .reader-grid,
+      .book-form {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        width: 100%;
+        margin-bottom: 12px;
+      }
+
+      .tab {
+        flex: 1;
+      }
+
+      .shelf {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    #readingForm .field {
+      display: grid;
+      grid-template-columns: 44px minmax(132px, 0.85fr) minmax(0, 1.55fr);
+      align-items: center;
+      column-gap: 12px;
+      margin-bottom: 18px;
+      min-height: 58px;
+    }
+
+    .mission-form-block {
+      padding: 28px 18px 0;
+    }
+
+    .books-list-block {
+      padding: 28px 18px 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      max-height: min(58vh, 520px);
+      min-height: 260px;
+    }
+
+    .books-list-block .shelf {
+      overflow-y: auto;
+      padding-right: 4px;
+      overscroll-behavior: contain;
+    }
+
+    .books-list-block .shelf-actions {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      padding-top: 10px;
+      padding-bottom: 2px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), #ffffff 28%);
+    }
+
+    [data-screen="journal"] .panel-body {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      max-height: min(62vh, 560px);
+      min-height: 300px;
+    }
+
+    [data-screen="journal"] .timeline {
+      overflow-y: auto;
+      padding-right: 4px;
+      overscroll-behavior: contain;
+    }
+
+    [data-screen="journal"] .shelf-actions {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      padding-top: 10px;
+      padding-bottom: 2px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), #ffffff 28%);
+    }
+
+    [data-screen="journal"] .shelf-actions .btn.coral {
+      width: min(320px, 100%);
+      min-height: 48px;
+      justify-self: center;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #c7bddf;
+      box-shadow: 0 8px 18px rgba(74, 92, 180, 0.07);
+      color: var(--violet);
+      font-size: 0.88rem;
+    }
+
+    [data-screen="journal"] .shelf-actions .btn.coral .svg-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+    }
+
+    .book-add-block {
+      padding: 18px 18px 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .book-add-scroll {
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      padding-bottom: 10px;
+      overscroll-behavior: contain;
+    }
+
+    #bookForm .field {
+      margin-bottom: 10px;
+      gap: 4px;
+    }
+
+    #bookForm input {
+      min-height: 44px;
+      padding-block: 9px;
+    }
+
+    #bookForm textarea {
+      min-height: 92px;
+      padding-block: 10px;
+    }
+
+    #bookForm .cover-options {
+      gap: 5px;
+    }
+
+    #bookForm .swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+    }
+
+    #bookForm .rating {
+      gap: 2px;
+      min-height: 42px;
+      margin-top: -8px;
+      align-items: flex-start;
+    }
+
+    #bookForm .star {
+      width: 48px;
+      height: 48px;
+      font-size: 1.8rem;
+    }
+
+    #bookForm .star-svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    #addBookDrawer .shelf-actions .btn.coral {
+      min-height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #8d47ff, #6e2ff2);
+      border: 1px solid #4e1bd6;
+      box-shadow: none;
+      font-size: 0.88rem;
+    }
+
+    #addBookDrawer .shelf-actions {
+      margin-top: 0;
+      padding-top: 8px;
+      padding-bottom: 0;
+      background: #ffffff;
+    }
+
+    #addBookDrawer .shelf-actions .btn.coral .svg-icon {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+    }
+
+    #addBookDrawer .shelf-actions .btn.coral .svg-icon path {
+      stroke-width: 3.4;
+    }
+
+    #booksDrawer .shelf-actions .btn.coral {
+      width: min(260px, 100%);
+      min-height: 48px;
+      justify-self: center;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #8d47ff, #6e2ff2);
+      border: 1px solid #4e1bd6;
+      box-shadow: none;
+      font-size: 0.88rem;
+    }
+
+    #booksDrawer .shelf-actions .btn.coral .svg-icon {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+    }
+
+    #booksDrawer .shelf-actions .btn.coral .svg-icon path {
+      stroke-width: 3.4;
+    }
+
+    #readingForm .field:has(textarea) {
+      align-items: start;
+      min-height: 114px;
+    }
+
+    #readingForm .field-label {
+      display: contents;
+    }
+
+    #readingForm .field-label .step-dot {
+      align-self: center;
+      justify-self: center;
+    }
+
+    #readingForm .field:has(textarea) .field-label .step-dot {
+      align-self: start;
+      margin-top: 12px;
+    }
+
+    #readingForm .field-label {
+      align-items: center;
+    }
+
+    #readingForm .field > input,
+    #readingForm .field > textarea {
+      grid-column: 3;
+    }
+
+    #readingForm .field > textarea {
+      align-self: start;
+    }
+
+    #readingForm textarea {
+      min-height: 92px;
+    }
+
+    #readingForm .actions {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    #readingForm .btn {
+      min-height: 48px;
+      width: 100%;
+      padding-inline: 12px;
+    }
+
+    #readingForm .btn .svg-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      background: center / contain no-repeat;
+    }
+
+    #readingForm .btn.primary {
+      min-height: 48px;
+      box-shadow: none;
+    }
+
+    #readingForm .btn.primary .svg-icon {
+      background-image: url("assets/mission/mission-pen.png");
+      color: transparent;
+    }
+
+    #readingForm .btn.ghost .svg-icon {
+      background-image: url("assets/mission/mission-phrase.png");
+      color: transparent;
+    }
+
+    .book-form .field,
+    #addBookDrawer .field {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 6px;
+    }
+
+    .star {
+      color: #d6d8e2;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .star.active {
+      color: var(--gold);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .icon-badge {
+      color: var(--violet);
+    }
+
+    .panel-body .shelf-actions .btn.coral {
+      width: 100%;
+    }
+
+    @media (min-width: 560px) {
+      .shelf {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand {
+        min-height: 156px;
+        grid-template-columns: 108px minmax(0, 1fr);
+        padding: 10px 12px;
+      }
+
+      .mascot-photo {
+        max-width: 126px;
+      }
+
+      .panel-title {
+        padding-right: 80px;
+      }
+
+      .panel-head::after {
+        width: 92px;
+      }
+
+      #readingForm .field {
+        grid-template-columns: 40px minmax(104px, 0.78fr) minmax(0, 1.22fr);
+        column-gap: 10px;
+      }
+
+      #readingForm .step-wrap {
+        grid-template-columns: 40px minmax(0, 1fr);
+        column-gap: 10px;
+      }
+
+      .mission-form-block {
+        padding-inline: 10px;
+      }
+
+      .books-list-block {
+        padding-inline: 10px;
+      }
+
+      .book-add-block {
+        padding-inline: 10px;
+      }
+
+      #readingForm .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Mission screen font scale aligned to pic/mission.png. */
+    .brand h1 {
+      font-size: clamp(1.58rem, 7.1vw, 2.18rem);
+      line-height: 1.04;
+    }
+
+    .brand p {
+      font-size: clamp(0.82rem, 3.25vw, 1rem);
+      line-height: 1.32;
+    }
+
+    .level-copy span {
+      font-size: 0.78rem;
+    }
+
+    .level-copy strong {
+      font-size: clamp(0.98rem, 4.35vw, 1.28rem);
+      line-height: 1.12;
+    }
+
+    .stat strong {
+      font-size: 1.32rem;
+    }
+
+    .stat span {
+      font-size: 0.7rem;
+      line-height: 1.12;
+      margin-top: -7px;
+    }
+
+    [data-screen="mission"] .panel-title h2 {
+      font-size: clamp(1.38rem, 5.7vw, 1.72rem);
+      line-height: 1.06;
+    }
+
+    [data-screen="mission"] .quest-note {
+      font-size: 0.82rem;
+      line-height: 1.22;
+    }
+
+    #readingForm label,
+    #readingForm .field-label {
+      font-size: 0.78rem;
+      line-height: 1.16;
+    }
+
+    #readingForm input,
+    #readingForm textarea {
+      font-size: 0.78rem;
+      line-height: 1.25;
+    }
+
+    #readingForm .step-dot {
+      font-size: 0.92rem;
+    }
+
+    #readingForm .btn {
+      font-size: 0.82rem;
+      line-height: 1.12;
+    }
+
+    .nav-btn {
+      font-size: 0.64rem;
+    }
+
+    .level-card {
+      min-height: 104px;
+      grid-template-columns: 72px minmax(0, 1fr);
+      grid-template-rows: auto 72px;
+      align-items: center;
+      column-gap: 14px;
+      row-gap: 4px;
+    }
+
+    .level-copy {
+      display: contents;
+    }
+
+    .level-copy span {
+      display: block;
+      grid-column: 1 / -1;
+      grid-row: 1;
+      margin: 0;
+      text-align: left;
+    }
+
+    .level-copy strong {
+      display: block;
+      grid-column: 2;
+      grid-row: 2;
+      margin-top: 0;
+      align-self: center;
+    }
+
+    .level-pill {
+      position: relative;
+      left: auto;
+      top: auto;
+      grid-column: 1;
+      grid-row: 2;
+      width: 72px;
+      height: 72px;
+      align-self: center;
+      justify-self: center;
+    }
+
+    .level-card::before {
+      grid-column: 1;
+      grid-row: 2;
+      width: 72px;
+      align-self: center;
+      justify-self: center;
+    }
+
+    .level-star text {
+      font-size: 21px;
+      letter-spacing: 0;
+    }
+
+    .level-track {
+      display: none;
+    }
+
+    #readingForm .field {
+      align-items: start;
+    }
+
+    #readingForm .field:has(textarea) {
+      align-items: start;
+    }
+
+    #readingForm .step-wrap {
+      grid-column: 1 / 3;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      column-gap: 12px;
+      align-self: start;
+      padding-top: 0;
+    }
+
+    #readingForm .field-label .step-dot,
+    #readingForm .field:has(textarea) .field-label .step-dot {
+      align-self: center;
+      justify-self: center;
+      margin-top: 0;
+    }
+
+    #readingForm .step-text {
+      align-self: center;
+      justify-self: start;
+      font-size: 0.92rem;
+      line-height: 1.16;
+      white-space: nowrap;
+    }
+
+    #readingForm .field > input,
+    #readingForm .field > textarea {
+      grid-column: 3;
+      align-self: start;
+    }
+
+    .level-card {
+      min-height: 88px;
+      grid-template-columns: 76px minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      align-items: center;
+      column-gap: 14px;
+      row-gap: 3px;
+      padding: 12px 18px;
+    }
+
+    .level-copy {
+      display: contents;
+    }
+
+    .level-copy span {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: end;
+      margin: 0;
+      text-align: left;
+    }
+
+    .level-copy strong {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: start;
+      margin: 0;
+    }
+
+    .level-card::before {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      width: 74px;
+      align-self: center;
+      justify-self: center;
+    }
+
+    .level-pill {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      width: 74px;
+      height: 74px;
+      align-self: center;
+      justify-self: center;
+    }
+
+    .level-star text {
+      font-size: 20px;
+    }
+
+    .app:has([data-screen="map"].active) .level-card,
+    .app:has([data-screen="map"].active) .quick-stats,
+    .app:has([data-screen="shelf"].active) .level-card,
+    .app:has([data-screen="shelf"].active) .quick-stats,
+    .app:has([data-screen="journal"].active) .level-card,
+    .app:has([data-screen="journal"].active) .quick-stats {
+      display: none;
+    }
+
+    .app:has([data-screen="map"].active) .brand,
+    .app:has([data-screen="shelf"].active) .brand,
+    .app:has([data-screen="journal"].active) .brand {
+      display: none;
+    }
+
+    .app:has([data-screen="map"].active) .game-hero,
+    .app:has([data-screen="shelf"].active) .game-hero,
+    .app:has([data-screen="journal"].active) .game-hero {
+      margin-bottom: 0;
+    }
+
+    [data-screen="shelf"] .icon-badge {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    [data-screen="shelf"] .icon-badge .asset-icon {
+      width: 58%;
+      height: 58%;
+      margin: auto;
+    }
+
+    [data-screen="shelf"].active,
+    [data-screen="journal"].active {
+      min-height: calc(100dvh - 108px);
+    }
+
+    [data-screen="shelf"] > .panel,
+    [data-screen="journal"] > .panel {
+      height: calc(100dvh - 108px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    [data-screen="shelf"] .panel-body,
+    [data-screen="journal"] .panel-body {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    [data-screen="shelf"] .panel-body {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    [data-screen="shelf"] #booksDrawer.active {
+      display: grid;
+      min-height: 0;
+      height: 100%;
+    }
+
+    [data-screen="shelf"] #addBookDrawer.active {
+      display: grid;
+      min-height: 0;
+      height: 100%;
+    }
+
+    [data-screen="shelf"] #bookForm {
+      display: grid;
+      min-height: 0;
+      height: 100%;
+    }
+
+    [data-screen="shelf"] .books-list-block {
+      height: 100%;
+      max-height: none;
+      min-height: 0;
+      padding-bottom: 0;
+    }
+
+    [data-screen="shelf"] .books-list-block .shelf {
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 10px;
+    }
+
+    [data-screen="shelf"] .books-list-block .shelf-actions {
+      position: static;
+      z-index: 2;
+      margin-top: 0;
+      padding-top: 12px;
+      padding-bottom: 0;
+      background: #ffffff;
+    }
+
+    [data-screen="shelf"] .books-list-block .shelf,
+    [data-screen="journal"] .timeline {
+      min-height: 0;
+    }
+
+    [data-screen="journal"] .panel-body {
+      height: 100%;
+      max-height: none;
+      min-height: 0;
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="game-hero">
+      <div class="brand">
+        <img class="mascot-photo" src="assets/shared/main-cat.png" alt="Кошечка с книгой">
+        <svg class="mascot" viewBox="0 0 120 120" role="img" aria-label="Милая кошечка с книгой">
+          <path d="M25 48 18 20l27 17c5-2 10-3 16-3s12 1 17 3l26-17-7 28c9 8 14 19 14 33 0 25-22 38-50 38S11 106 11 81c0-14 5-25 14-33Z" fill="#f0eaff"/>
+          <path d="M24 39 21 27l12 8-9 4ZM96 39l4-12-12 8 8 4Z" fill="#ffd9ef"/>
+          <path d="M25 48 18 20l27 17c5-2 10-3 16-3s12 1 17 3l26-17-7 28c9 8 14 19 14 33 0 25-22 38-50 38S11 106 11 81c0-14 5-25 14-33Z" fill="none" stroke="#243043" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M36 65c4-5 10-5 14 0M72 65c4-5 10-5 14 0" fill="none" stroke="#243043" stroke-width="5" stroke-linecap="round"/>
+          <path d="M35 57 27 53M38 54l-6-7M84 57l8-4M81 54l6-7" stroke="#243043" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="39" cy="79" r="6" fill="#ffb6d8" opacity="0.75"/>
+          <circle cx="83" cy="79" r="6" fill="#ffb6d8" opacity="0.75"/>
+          <path d="M58 75h6l-3 4-3-4Z" fill="#243043"/>
+          <path d="M51 86c5 5 15 5 20 0" fill="none" stroke="#243043" stroke-width="4" stroke-linecap="round"/>
+          <path d="M78 35c5-9 16-10 22-2-6 5-14 6-22 2Z" fill="#9de2ff" stroke="#243043" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M77 35c-7-7-17-5-21 3 7 4 15 3 21-3Z" fill="#b8a8ff" stroke="#243043" stroke-width="4" stroke-linejoin="round"/>
+          <circle cx="77" cy="35" r="5" fill="#ffffff" stroke="#243043" stroke-width="3"/>
+          <path d="M36 98c8 5 42 5 50 0" fill="none" stroke="#243043" stroke-width="5" stroke-linecap="round"/>
+          <rect x="78" y="88" width="31" height="9" rx="3" fill="#d8f3ff" stroke="#243043" stroke-width="3"/>
+          <rect x="74" y="98" width="32" height="9" rx="3" fill="#b8a8ff" stroke="#243043" stroke-width="3"/>
+          <rect x="80" y="108" width="28" height="9" rx="3" fill="#ffffff" stroke="#243043" stroke-width="3"/>
+          <path d="M84 92h8M82 102h10M87 112h8" stroke="#6f7cff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1>Читательский квест</h1>
+          <p>Читай, собирай монетки, открывай награды</p>
+        </div>
+      </div>
+
+      <section class="level-card" aria-label="Уровень">
+        <div class="level-row">
+          <div class="level-copy">
+            <span>Уровень чтения</span>
+            <strong id="readerTitle">Искательница историй</strong>
+          </div>
+          <span class="level-pill" aria-label="Уровень">
+            <svg class="level-star" viewBox="0 0 64 64" role="img">
+              <path d="M32 5 39 21l17 2-12 12 3 17-15-8-15 8 3-17L8 23l17-2 7-16Z" fill="#ffd86b"/>
+              <path d="M32 9 37 23l15 2-11 10 3 14-12-7-12 7 3-14-11-10 15-2 5-14Z" fill="#ffe58c"/>
+              <text id="levelText" x="32" y="39" text-anchor="middle" fill="#1f2337" font-size="20" font-weight="700">1</text>
+            </svg>
+          </span>
+        </div>
+        <div class="level-track"><div class="level-fill" id="levelFill"></div></div>
+      </section>
+
+      <section class="quick-stats" aria-label="Статистика">
+        <div class="stat pages"><strong id="totalPages">0</strong><span>страниц</span></div>
+        <div class="stat books"><strong id="totalBooks">0</strong><span>книг</span></div>
+        <div class="stat streak"><strong id="streakDays">0</strong><span>дней подряд</span></div>
+        <div class="stat coins">
+          <strong id="totalCoins">0</strong>
+          <span>
+            <svg class="coin-stack" viewBox="0 0 48 48" aria-hidden="true">
+              <ellipse cx="24" cy="34" rx="16" ry="7" fill="#e3a82b"/>
+              <rect x="8" y="25" width="32" height="9" fill="#f3bf3f"/>
+              <ellipse cx="24" cy="25" rx="16" ry="7" fill="#ffd766"/>
+              <ellipse cx="24" cy="24" rx="10" ry="3.7" fill="#ffe99a"/>
+              <ellipse cx="24" cy="19" rx="15" ry="6.5" fill="#f1b634"/>
+              <rect x="9" y="12" width="30" height="7" fill="#ffd15a"/>
+              <ellipse cx="24" cy="12" rx="15" ry="6.5" fill="#ffe07a"/>
+              <ellipse cx="24" cy="11" rx="9" ry="3.2" fill="#fff0aa"/>
+            </svg>
+            монет в копилке
+          </span>
+        </div>
+      </section>
+    </header>
+
+    <div class="layout">
+      <section class="screen active" data-screen="mission">
+        <section class="panel focus-panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Миссия дня</h2>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p class="quest-note">Заполни миссию и забери монетки за чтение</p>
+          <form id="readingForm">
+            <div class="mission-form-block">
+              <div class="reader-grid">
+                <div class="field">
+                  <label class="field-label" for="entryTitle"><span class="step-wrap"><span class="step-dot">1</span><span class="step-text">Что читала</span></span></label>
+                  <input id="entryTitle" name="entryTitle" autocomplete="off" required placeholder="Название книги">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="entryPages"><span class="step-wrap"><span class="step-dot">2</span><span class="step-text">Сколько страниц</span></span></label>
+                  <input id="entryPages" name="entryPages" inputmode="numeric" min="1" max="999" type="number" required placeholder="15">
+                </div>
+              </div>
+              <div class="field">
+                <label class="field-label" for="entryLearned"><span class="step-wrap"><span class="step-dot">3</span><span class="step-text">Что я узнала</span></span></label>
+                <textarea id="entryLearned" name="entryLearned" required placeholder="Новое слово, интересный факт или поступок героя"></textarea>
+              </div>
+              <div class="actions">
+                <button class="btn primary" type="submit">
+                  <svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.2 16.8 4.4a2.1 2.1 0 0 1 3 3L7 20.2 3 21l1-3.8Z" fill="currentColor"/><path d="m14.8 6.4 2.8 2.8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                  Записать
+                </button>
+                <button class="btn ghost" type="button" id="fillLucky">
+                  <svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16.5c-1.2-1.2-2-2.8-2-4.5 0-3.6 3.6-6.5 8-6.5s8 2.9 8 6.5-3.6 6.5-8 6.5c-.7 0-1.4-.1-2-.2L5 21v-4.5Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 12h.01M11 12h.01M14 12h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                  Начать фразу
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+      </section>
+
+      <section class="screen" data-screen="map">
+        <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Альбом наклеек</h2>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="collection-block">
+            <div class="collection-head">
+              <h3>Наклейки за чтение</h3>
+              <span id="stickerCounter">0 / 22</span>
+            </div>
+            <div class="sticker-album" id="stickerAlbum"></div>
+          </div>
+        </div>
+      </section>
+      </section>
+
+      <section class="screen" data-screen="shelf">
+        <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Прочитанные книги</h2>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="drawer active" id="booksDrawer">
+            <div class="books-list-block">
+              <div class="shelf" id="bookShelf"></div>
+              <div class="shelf-actions">
+                <button class="btn coral" type="button" data-tab="addBook">
+                  <svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".18"/><path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                  Добавить книгу
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="drawer" id="addBookDrawer">
+            <form id="bookForm">
+              <div class="book-add-block">
+                <div class="book-add-scroll">
+                  <div class="book-form">
+                    <div class="field">
+                      <label for="bookTitle">Название</label>
+                      <input id="bookTitle" required autocomplete="off" placeholder="Книга, которую дочитала">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Обложка</label>
+                    <div class="cover-options" id="coverOptions"></div>
+                  </div>
+                  <div class="field">
+                    <label for="bookReview">Отзыв</label>
+                    <textarea id="bookReview" required placeholder="Что понравилось, кто был любимым героем, что запомнилось"></textarea>
+                  </div>
+                  <div class="field">
+                    <label>Оценка</label>
+                    <div class="rating" id="ratingButtons" aria-label="Оценка книги"></div>
+                  </div>
+                </div>
+                <div class="shelf-actions">
+                  <button class="btn coral" type="submit">
+                    <svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".18"/><path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                    Добавить
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      </section>
+
+      <section class="screen" data-screen="journal">
+        <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Журнал квеста</h2>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="timeline" id="timeline"></div>
+          <div class="shelf-actions">
+            <button class="btn coral" type="button" data-export-summer-report>
+              <svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 11h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              Напечатать
+            </button>
+          </div>
+        </div>
+      </section>
+      </section>
+
+    </div>
+
+    <div class="notice" id="motivation"></div>
+
+    <nav class="game-nav" aria-label="Игровое меню">
+      <button class="nav-btn active" type="button" data-screen-target="mission"><span aria-hidden="true"><img class="nav-icon" src="assets/nav/nav-mission.png" alt=""></span>Миссия</button>
+      <button class="nav-btn" type="button" data-screen-target="map"><span aria-hidden="true"><img class="nav-icon" src="assets/nav/nav-album.png" alt=""></span>Альбом</button>
+      <button class="nav-btn" type="button" data-screen-target="shelf"><span aria-hidden="true"><img class="nav-icon" src="assets/nav/nav-shelf.png" alt=""></span>Книги</button>
+      <button class="nav-btn" type="button" data-screen-target="journal"><span aria-hidden="true"><img class="nav-icon" src="assets/nav/nav-journal.png" alt=""></span>Журнал</button>
+    </nav>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "adel-reading-quest-v1";
+    const baseColors = ["#ACD7A1", "#C2B5FA", "#9CD0FC", "#FDDD86", "#AFE4D6", "#FDB5A2"];
+    const secretColors = [];
+    const winnerColors = [];
+    const colors = [...baseColors, ...secretColors, ...winnerColors];
+    const LEVEL_PAGE_STEP = 10;
+    const SECRET_COVER_PAGES = 300;
+    const WINNER_COVER_PAGES = 600;
+    const WINNER_COVER_BOOKS = 8;
+    const phrases = [
+      "Адель, котики аплодируют лапками! +монетки в копилку.",
+      "Мур-миссия выполнена. Книжная тропинка стала длиннее!",
+      "Ты поймала новый кусочек знания. Это почти магия.",
+      "Книжный сундук звякнул монетками. Продолжаем квест!",
+      "Сегодняшняя глава приручена. Очень достойный ход.",
+      "Лапки на карте засияли: чтение засчитано!"
+    ];
+    const luckyStarts = [
+      "Я узнала, что ",
+      "Мне стало понятно, что ",
+      "Самое интересное сегодня: ",
+      "Я удивилась, потому что ",
+      "Теперь я знаю, что "
+    ];
+
+    function coinStackIcon(size = "") {
+      return `
+        <svg class="coin-stack ${size}" viewBox="0 0 48 48" aria-hidden="true">
+          <ellipse cx="24" cy="34" rx="16" ry="7" fill="#e3a82b"/>
+          <rect x="8" y="25" width="32" height="9" fill="#f3bf3f"/>
+          <ellipse cx="24" cy="25" rx="16" ry="7" fill="#ffd766"/>
+          <ellipse cx="24" cy="24" rx="10" ry="3.7" fill="#ffe99a"/>
+          <ellipse cx="24" cy="19" rx="15" ry="6.5" fill="#f1b634"/>
+          <rect x="9" y="12" width="30" height="7" fill="#ffd15a"/>
+          <ellipse cx="24" cy="12" rx="15" ry="6.5" fill="#ffe07a"/>
+          <ellipse cx="24" cy="11" rx="9" ry="3.2" fill="#fff0aa"/>
+        </svg>
+      `;
+    }
+
+    function svgStar(className = "") {
+      return `<svg class="star-svg ${className}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.7 6.3.9-4.6 4.5 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.5 6.3-.9L12 2.8Z" fill="currentColor"/></svg>`;
+    }
+
+    function starRating(value) {
+      return `<span class="starline" aria-label="Оценка ${value} из 5">${Array.from({ length: 5 }, (_, index) => svgStar(index < value ? "" : "muted-star")).join("")}</span>`;
+    }
+
+    function lockIcon() {
+      return `<svg class="lock-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V8a5 5 0 0 1 10 0v2" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><rect x="5" y="10" width="14" height="10" rx="2.5" fill="currentColor"/><circle cx="12" cy="15" r="1.3" fill="#fff"/></svg>`;
+    }
+
+    function plusIcon() {
+      return `<svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".16"/><path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+    }
+
+    function printerIcon() {
+      return `<svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 11h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>`;
+    }
+
+    const stickerAssets = [
+      "assets/shared/star.png",
+      "assets/shared/main-cat.png",
+      "assets/mission/mission-level.png",
+      "assets/mission/mission-book.png",
+      "assets/mission/mission-calendar.png",
+      "assets/shelf/shelf-book.png",
+      "assets/shared/flag.png",
+      "assets/mission/mission-coin.png",
+      "assets/mission/mission-phrase.png",
+      "assets/journal/journal-books.png",
+      "assets/mission/mission-pen.png",
+      "assets/journal/journal-quote.png"
+    ];
+
+    function stickerVisual(sticker, index, isOpen) {
+      if (!isOpen) return lockIcon();
+      const asset = rewardStickerAssets[sticker.id] || sticker.asset || stickerAssets[index % stickerAssets.length];
+      return `<img class="asset-icon" src="${asset}" alt="">`;
+    }
+
+    const rewards = [
+      { id: "pages-10", group: "pages", title: "10 страниц", text: "10 страниц", asset: "assets/stickers/01-book-star.png", test: s => baseMetrics(s).pages >= 10 },
+      { id: "pages-25", group: "pages", title: "25 страниц", text: "25 страниц", asset: "assets/stickers/02-cat-reading.png", test: s => baseMetrics(s).pages >= 25 },
+      { id: "pages-50", group: "pages", title: "50 страниц", text: "50 страниц", test: s => baseMetrics(s).pages >= 50 },
+      { id: "pages-75", group: "pages", title: "75 страниц", text: "75 страниц", asset: "assets/stickers/04-dino-reading.png", test: s => baseMetrics(s).pages >= 75 },
+      { id: "pages-100", group: "pages", title: "100 страниц", text: "100 страниц", asset: "assets/stickers/05-planet.png", test: s => baseMetrics(s).pages >= 100 },
+      { id: "pages-150", group: "pages", title: "150 страниц", text: "150 страниц", asset: "assets/stickers/06-flower-pink.png", test: s => baseMetrics(s).pages >= 150 },
+      { id: "pages-200", group: "pages", title: "200 страниц", text: "200 страниц", asset: "assets/stickers/07-butterfly.png", test: s => baseMetrics(s).pages >= 200 },
+      { id: "pages-250", group: "pages", title: "250 страниц", text: "250 страниц", asset: "assets/stickers/11-strawberry.png", test: s => baseMetrics(s).pages >= 250 },
+      { id: "pages-300", group: "pages", title: "300 страниц", text: "300 страниц", test: s => baseMetrics(s).pages >= 300 },
+      { id: "pages-400", group: "pages", title: "400 страниц", text: "400 страниц", test: s => baseMetrics(s).pages >= 400 },
+      { id: "pages-500", group: "pages", title: "500 страниц", text: "500 страниц", asset: "assets/stickers/adel_stickers_without_white_stroke/29-medal-star.png", test: s => baseMetrics(s).pages >= 500 },
+      { id: "days-1", group: "days", title: "1 день", text: "1 день", test: s => baseMetrics(s).readingDays >= 1 },
+      { id: "days-3", group: "days", title: "3 дня", text: "3 дня", test: s => baseMetrics(s).readingDays >= 3 },
+      { id: "days-5", group: "days", title: "5 дней", text: "5 дней", test: s => baseMetrics(s).readingDays >= 5 },
+      { id: "days-7", group: "days", title: "7 дней", text: "7 дней", test: s => baseMetrics(s).readingDays >= 7 },
+      { id: "days-10", group: "days", title: "10 дней", text: "10 дней", test: s => baseMetrics(s).readingDays >= 10 },
+      { id: "days-15", group: "days", title: "15 дней", text: "15 дней", test: s => baseMetrics(s).readingDays >= 15 },
+      { id: "days-20", group: "days", title: "20 дней", text: "20 дней", test: s => baseMetrics(s).readingDays >= 20 },
+      { id: "days-30", group: "days", title: "30 дней", text: "30 дней", test: s => baseMetrics(s).readingDays >= 30 },
+      { id: "days-45", group: "days", title: "45 дней", text: "45 дней", asset: "assets/stickers/adel_stickers_without_white_stroke/15-crown.png", test: s => baseMetrics(s).readingDays >= 45 },
+      { id: "first-book", group: "books", title: "1 книга", text: "1 книга", test: s => baseMetrics(s).books >= 1 },
+      { id: "books-2", group: "books", title: "2 книги", text: "2 книги", test: s => baseMetrics(s).books >= 2 },
+      { id: "books-3", group: "books", title: "3 книги", text: "3 книги", test: s => baseMetrics(s).books >= 3 },
+      { id: "books-5", group: "books", title: "5 книг", text: "5 книг", test: s => baseMetrics(s).books >= 5 },
+      { id: "books-7", group: "books", title: "7 книг", text: "7 книг", test: s => baseMetrics(s).books >= 7 },
+      { id: "books-10", group: "books", title: "10 книг", text: "10 книг", test: s => baseMetrics(s).books >= 10 },
+      { id: "books-15", group: "books", title: "15 книг", text: "15 книг", test: s => baseMetrics(s).books >= 15 },
+      { id: "first-entry", group: "special", title: "Первая заметка", text: "Первая заметка", test: s => s.entries.length >= 1 },
+      { id: "entries-3", group: "special", title: "3 заметки", text: "Заполнить 3 миссии", test: s => s.entries.length >= 3 },
+      { id: "entries-5", group: "special", title: "5 заметок", text: "Заполнить 5 миссий", test: s => s.entries.length >= 5 },
+      { id: "entries-10", group: "special", title: "10 заметок", text: "Заполнить 10 миссий", test: s => s.entries.length >= 10 },
+      { id: "first-stamp", group: "special", title: "Первая печать взрослого", text: "Первая печать взрослого", test: s => approvedEntries(s).length >= 1 },
+      { id: "quest-final", group: "special", title: "Финал квеста", text: "Финал квеста", asset: "assets/stickers/03-trophy.png", test: () => new Date() >= new Date("2026-09-01T00:00:00") }
+    ];
+
+    const rewardStickerAssets = {
+      "pages-10": "assets/stickers/01-book-star.png",
+      "pages-25": "assets/stickers/02-cat-reading.png",
+      "pages-50": "assets/stickers/04-dino-reading.png",
+      "pages-75": "assets/stickers/05-planet.png",
+      "pages-100": "assets/stickers/06-flower-pink.png",
+      "pages-150": "assets/stickers/07-butterfly.png",
+      "pages-200": "assets/stickers/08-strawberry.png",
+      "pages-250": "assets/stickers/09-bunny-carrot.png",
+      "pages-300": "assets/stickers/10-fox-scarf.png",
+      "pages-400": "assets/stickers/11-sunflower 1.png",
+      "pages-500": "assets/stickers/12-crown.png",
+      "days-1": "assets/stickers/13-hot-air-balloon.png",
+      "days-3": "assets/stickers/14-shell.png",
+      "days-5": "assets/stickers/16-dog-reading.png",
+      "days-7": "assets/stickers/17-sakura.png",
+      "days-10": "assets/stickers/19-magic-wand.png",
+      "days-15": "assets/stickers/20-bow-purple.png",
+      "days-20": "assets/stickers/21-rainbow.png",
+      "days-30": "assets/stickers/22-tea-cup.png",
+      "days-45": "assets/stickers/15-medal-star.png",
+      "first-book": "assets/stickers/23-castle.png",
+      "books-2": "assets/stickers/24-rocket.png",
+      "books-3": "assets/stickers/25-pearl-shell.png",
+      "books-5": "assets/stickers/26-daisy-pot.png",
+      "books-7": "assets/stickers/27-owl.png",
+      "books-10": "assets/stickers/28-ladybug.png",
+      "books-15": "assets/stickers/18-treasure-chest.png",
+      "first-entry": "assets/stickers/29-potion.png",
+      "entries-3": "assets/stickers/30-moon-stars.png",
+      "entries-5": "assets/stickers/31-heart-medal.png",
+      "entries-10": "assets/stickers/32-hedgehog-reading.png",
+      "first-stamp": "assets/stickers/33-bird.png",
+      "quest-final": "assets/stickers/03-trophy.png"
+    };
+
+    const rewardGroups = [
+      { id: "pages", title: "Страницы" },
+      { id: "days", title: "Дни" },
+      { id: "books", title: "Книги" },
+      { id: "special", title: "Особые" }
+    ];
+
+    const initialState = {
+      entries: [],
+      books: [],
+      selectedCover: baseColors[0],
+      selectedRating: 0,
+      parentPin: "",
+      unlockedRewards: []
+    };
+
+    let state = loadState();
+    let noticeTimer = 0;
+
+    const $ = selector => document.querySelector(selector);
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!saved) return cloneInitialState();
+
+        return {
+          ...initialState,
+          ...saved,
+          entries: (saved.entries || []).map(entry => ({ status: "approved", ...entry })),
+          books: (saved.books || []).map(book => ({ author: "", status: "approved", ...book }))
+        };
+      } catch {
+        return cloneInitialState();
+      }
+    }
+
+    function cloneInitialState() {
+      return JSON.parse(JSON.stringify(initialState));
+    }
+
+    function makeId() {
+      const randomId = globalThis.crypto && typeof globalThis.crypto.randomUUID === "function";
+      return randomId ? globalThis.crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function dateKey(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function today() {
+      return dateKey();
+    }
+
+    function formatDate(value) {
+      return new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long" }).format(new Date(value + "T12:00:00"));
+    }
+
+    function isApproved(item) {
+      return item.status !== "pending";
+    }
+
+    function approvedEntries(s = state) {
+      return s.entries.filter(isApproved);
+    }
+
+    function approvedBooks(s = state) {
+      return s.books.filter(isApproved);
+    }
+
+    function baseMetrics(s = state) {
+      const entries = approvedEntries(s);
+      const books = approvedBooks(s);
+      const pages = entries.reduce((sum, entry) => sum + Number(entry.pages || 0), 0);
+      return {
+        pages,
+        books: books.length,
+        readingDays: new Set(entries.map(entry => entry.date)).size,
+        pageCoins: pages,
+        bookCoins: books.length * 25,
+        streakCoins: streakBonusCoins(entries)
+      };
+    }
+
+    function earnedRewardIds(s = state) {
+      return rewards.filter(reward => reward.test(s)).map(reward => reward.id);
+    }
+
+    function syncUnlockedRewards(s = state) {
+      const knownIds = new Set(rewards.map(reward => reward.id));
+      const previous = (s.unlockedRewards || []).filter(id => knownIds.has(id));
+      const unlockedSet = new Set([...previous, ...earnedRewardIds(s)]);
+      const changed = unlockedSet.size !== (s.unlockedRewards || []).length || previous.length !== (s.unlockedRewards || []).length;
+      s.unlockedRewards = [...unlockedSet];
+      return changed;
+    }
+
+    function totals(s = state) {
+      const metrics = baseMetrics(s);
+      const knownIds = new Set(rewards.map(reward => reward.id));
+      const rewardCoins = (s.unlockedRewards || []).filter(id => knownIds.has(id)).length * 5;
+      return {
+        ...metrics,
+        rewardCoins,
+        coins: metrics.pageCoins + metrics.bookCoins + metrics.streakCoins + rewardCoins
+      };
+    }
+
+    function percent(value, goal) {
+      return Math.max(0, Math.min(100, Math.round((value / Math.max(goal, 1)) * 100)));
+    }
+
+    function playerLevel(pages) {
+      return Math.floor(pages / LEVEL_PAGE_STEP) + 1;
+    }
+
+    function levelProgress(pages) {
+      return percent(pages % LEVEL_PAGE_STEP, LEVEL_PAGE_STEP);
+    }
+
+    function readerTitle(s = state) {
+      const level = playerLevel(baseMetrics(s).pages);
+      const titles = [
+        "Искательница историй",
+        "Ловец новых слов",
+        "Разведчица страниц",
+        "Книжная следопытка",
+        "Хранительница полки",
+        "Повелительница глав",
+        "Звездная читательница",
+        "Книжная чемпионка",
+        "Хранительница летней библиотеки"
+      ];
+      const title = titles[Math.min(titles.length - 1, Math.floor((level - 1) / 5))];
+      return title;
+    }
+
+    function coverUnlocked(color) {
+      return colors.includes(color);
+    }
+
+    function readingRuns(entries) {
+      const days = [...new Set(entries.filter(isApproved).map(entry => entry.date))].sort();
+      if (!days.length) return [];
+
+      const runs = [];
+      let currentRun = 1;
+
+      for (let index = 1; index < days.length; index += 1) {
+        const previous = new Date(days[index - 1] + "T12:00:00");
+        previous.setDate(previous.getDate() + 1);
+
+        if (dateKey(previous) === days[index]) {
+          currentRun += 1;
+        } else {
+          runs.push(currentRun);
+          currentRun = 1;
+        }
+      }
+
+      runs.push(currentRun);
+      return runs;
+    }
+
+    function longestReadingStreak(entries) {
+      return Math.max(0, ...readingRuns(entries));
+    }
+
+    function streakBonusUnits(entries) {
+      return readingRuns(entries).reduce((sum, runLength) => sum + Math.floor(runLength / 7), 0);
+    }
+
+    function streakBonusCoins(entries) {
+      return streakBonusUnits(entries) * 10;
+    }
+
+    function readingStreak(entries) {
+      const days = [...new Set(entries.filter(isApproved).map(entry => entry.date))].sort().reverse();
+      if (!days.length) return 0;
+
+      let streak = 0;
+      const cursor = new Date(today() + "T12:00:00");
+      const daySet = new Set(days);
+
+      while (daySet.has(dateKey(cursor))) {
+        streak += 1;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+
+      return streak;
+    }
+
+    function render() {
+      if (syncUnlockedRewards()) saveState();
+      const t = totals();
+      $("#totalPages").textContent = t.pages;
+      $("#totalBooks").textContent = t.books;
+      $("#totalCoins").textContent = t.coins;
+      $("#streakDays").textContent = readingStreak(state.entries);
+      $("#levelText").textContent = playerLevel(t.pages);
+      $("#levelFill").style.width = `${levelProgress(t.pages)}%`;
+      $("#readerTitle").textContent = readerTitle();
+
+      renderStickers();
+      renderShelf();
+      renderTimeline();
+      renderControls();
+    }
+
+    function renderStickers() {
+      const unlocked = new Set(earnedRewardIds(state));
+      $("#stickerCounter").textContent = `${unlocked.size} / ${rewards.length}`;
+      let stickerIndex = 0;
+      $("#stickerAlbum").innerHTML = rewardGroups.map(group => {
+        const groupRewards = rewards.filter(sticker => sticker.group === group.id);
+        const openedCount = groupRewards.filter(sticker => unlocked.has(sticker.id)).length;
+        const stickers = groupRewards.map(sticker => {
+          const isOpen = unlocked.has(sticker.id);
+          const visual = stickerVisual(sticker, stickerIndex, isOpen);
+          stickerIndex += 1;
+          return `
+            <div class="sticker ${isOpen ? "" : "locked"}">
+              <span class="sticker-icon">${visual}</span>
+              <span class="sticker-label">
+                <strong>${escapeHtml(isOpen ? sticker.title : sticker.text)}</strong>
+              </span>
+            </div>
+          `;
+        }).join("");
+
+        return `
+          <section class="sticker-section">
+            <div class="sticker-section-head">
+              <h3>${escapeHtml(group.title)}</h3>
+              <span>${openedCount} / ${groupRewards.length}</span>
+            </div>
+            <div class="sticker-grid">${stickers}</div>
+          </section>
+        `;
+      }).join("");
+    }
+
+    function renderShelf() {
+      const shelf = $("#bookShelf");
+      const books = approvedBooks();
+      if (!books.length) {
+        shelf.innerHTML = `<div class="empty">Здесь будут собираться прочитанные книги</div>`;
+        return;
+      }
+
+      shelf.innerHTML = books.map(book => `
+        <article class="book" style="--book-color: ${book.color}">
+          <div class="cover" aria-hidden="true"></div>
+          <div class="book-info">
+            <p>${starRating(book.rating)}</p>
+            <strong>${escapeHtml(book.title)}</strong>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderTimeline() {
+      const timeline = $("#timeline");
+      const records = [
+        ...state.entries.map(entry => ({ ...entry, type: "entry", sortAt: entry.createdAt })),
+        ...state.books.map(book => ({ ...book, type: "book", sortAt: book.finishedAt + "T12:00:00" }))
+      ].sort((a, b) => b.sortAt.localeCompare(a.sortAt));
+
+      if (!records.length) {
+        timeline.innerHTML = `<div class="empty">Журнал пока пустой</div>`;
+        return;
+      }
+
+      timeline.innerHTML = records.map(record => record.type === "book" ? `
+        <article class="entry type-book">
+          <div class="entry-head">
+            <span>${escapeHtml(record.title)}</span>
+            <span>${starRating(record.rating)}</span>
+          </div>
+          ${isApproved(record) ? "" : `<span class="status pending">Ждет печать взрослого</span>`}
+          <p>${escapeHtml(record.review)}</p>
+          <div class="mini-actions">
+            ${isApproved(record) ? "" : `<button class="mini approve" type="button" data-approve-book="${record.id}">Подтвердить</button>`}
+          </div>
+        </article>
+      ` : `
+        <article class="entry type-entry">
+          <div class="entry-head">
+            <span>${escapeHtml(record.title)}</span>
+          </div>
+          ${isApproved(record) ? "" : `<span class="status pending">Ждет печать взрослого</span>`}
+          <p>${escapeHtml(record.learned)}</p>
+          <div class="mini-actions">
+            ${isApproved(record) ? "" : `<button class="mini approve" type="button" data-approve-entry="${record.id}">Подтвердить</button>`}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderControls() {
+      if (!coverUnlocked(state.selectedCover)) {
+        state.selectedCover = baseColors[0];
+        saveState();
+      }
+
+      $("#coverOptions").innerHTML = colors.map(color => `
+        <button class="swatch ${color === state.selectedCover ? "active" : ""} ${coverUnlocked(color) ? "" : "locked"}" type="button" aria-label="Цвет обложки" data-cover="${color}" style="background: ${color}" ${coverUnlocked(color) ? "" : "disabled"}></button>
+      `).join("");
+
+      $("#ratingButtons").innerHTML = Array.from({ length: 5 }, (_, index) => {
+        const rating = index + 1;
+        return `<button class="star ${rating <= state.selectedRating ? "active" : ""}" type="button" aria-label="${rating}" data-rating="${rating}">${svgStar()}</button>`;
+      }).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function adultGate() {
+      if (!state.parentPin) {
+        const newPin = prompt("Взрослый: придумайте код для подтверждений");
+        if (!newPin || newPin.trim().length < 3) {
+          alert("Код должен быть не короче 3 символов");
+          return false;
+        }
+
+        state.parentPin = newPin.trim();
+        saveState();
+        return true;
+      }
+
+      const pin = prompt("Введите код взрослого");
+      if (pin !== state.parentPin) {
+        alert("Код не подошел");
+        return false;
+      }
+
+      return true;
+    }
+
+    function showMissionNotice(message) {
+      const notice = $("#motivation");
+      clearTimeout(noticeTimer);
+      notice.textContent = message;
+      notice.classList.remove("show", "hide");
+      requestAnimationFrame(() => notice.classList.add("show"));
+      noticeTimer = setTimeout(() => {
+        notice.classList.remove("show");
+        notice.classList.add("hide");
+      }, 2800);
+    }
+
+    function exportSummerReport() {
+      if (!adultGate()) return;
+
+      const html = buildSummerReport();
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const win = window.open(url, "_blank");
+
+      if (!win) {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `chitatelskiy-kvest-adel-${today()}.html`;
+        link.click();
+      }
+
+      showMissionNotice("Летний итог готов для печати");
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }
+
+    function buildSummerReport() {
+      if (syncUnlockedRewards()) saveState();
+      const t = totals();
+      const books = approvedBooks();
+      const entries = approvedEntries();
+      const unlocked = rewards.filter(reward => (state.unlockedRewards || []).includes(reward.id));
+      const finds = entries
+        .slice()
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      const generatedAt = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long", year: "numeric" }).format(new Date());
+      const fontRegular = new URL("fonts/Nunito-Regular.ttf", location.href).href;
+      const fontBold = new URL("fonts/Nunito-Bold.ttf", location.href).href;
+
+      return `<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Летний читательский итог Адель</title>
+  <style>
+    @font-face { font-family: Nunito; src: url("${fontRegular}") format("truetype"); font-weight: 400; }
+    @font-face { font-family: Nunito; src: url("${fontBold}") format("truetype"); font-weight: 700; }
+    @page { size: A4; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #202343;
+      background: #f5f7ff;
+      font-family: Nunito, system-ui, sans-serif;
+    }
+    .sheet {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+      border: 1px solid #dfe5ff;
+      border-radius: 28px;
+    }
+    .hero {
+      padding: 24px;
+      border-radius: 26px;
+      color: #fff;
+      background: linear-gradient(135deg, #7358dd, #547dea 58%, #63d1ef);
+    }
+    h1 { margin: 0; font-size: 38px; line-height: 1; }
+    .hero p { margin: 10px 0 0; font-size: 18px; opacity: .9; }
+    .stats, .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .stat, .card {
+      padding: 14px;
+      border: 1px solid #dfe5ff;
+      border-radius: 20px;
+      background: rgba(255,255,255,.9);
+    }
+    .stat strong { display: block; color: #7358dd; font-size: 28px; line-height: 1; }
+    .stat span { display: block; margin-top: 6px; color: #69718f; font-size: 13px; }
+    h2 { margin: 28px 0 12px; font-size: 22px; }
+    .books { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .book { display: grid; grid-template-columns: 54px 1fr; gap: 12px; align-items: start; }
+    .cover { width: 54px; height: 72px; display: grid; place-items: center; border-radius: 14px; background: #d8f3ff; font-size: 26px; }
+    .book strong, .card strong { display: block; margin-bottom: 4px; }
+    .muted { color: #69718f; }
+    .rewards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .reward { min-height: 86px; }
+    .medal { font-size: 26px; margin-bottom: 6px; }
+    .coin-stack { width: 28px; height: 28px; display: inline-block; vertical-align: middle; }
+    .finds { display: grid; gap: 8px; }
+    .find { padding: 12px; border-left: 5px solid #bfefff; border-radius: 14px; background: #fff; }
+    .coin-note { margin-top: 12px; color: #69718f; font-size: 14px; }
+    .footer { margin-top: 26px; color: #69718f; font-size: 13px; text-align: center; }
+    .print-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 999px;
+      color: white;
+      background: #7358dd;
+      font: inherit;
+      font-weight: 700;
+      box-shadow: 0 14px 28px rgba(32,35,67,.22);
+    }
+    @media print {
+      body { background: white; }
+      .sheet { border: 0; padding: 0; }
+      .print-button { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <section class="hero">
+      <h1>Летний читательский итог Адель</h1>
+      <p>Красивый след книжного лета. Сформировано ${escapeHtml(generatedAt)}.</p>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><strong>${t.pages}</strong><span>страниц</span></div>
+      <div class="stat"><strong>${t.books}</strong><span>книг</span></div>
+      <div class="stat"><strong>${t.coins}</strong><span>монеток</span></div>
+      <div class="stat"><strong>${unlocked.length}</strong><span>наград</span></div>
+    </section>
+    <div class="coin-note">
+      Монеты: ${t.pageCoins} за страницы, ${t.bookCoins} за книги, ${t.rewardCoins} за наклейки, ${t.streakCoins} за серии чтения.
+    </div>
+
+    <h2>Прочитанные книги</h2>
+    <section class="books">
+      ${books.length ? books.map(book => `
+        <article class="card book">
+          <div class="cover" style="background:${book.color || "#d8f3ff"}">📘</div>
+          <div>
+            <strong>${escapeHtml(book.title)}</strong>
+            <div class="muted">${escapeHtml(book.author || "Автор не указан")}</div>
+            <div>${"★".repeat(book.rating)}${"☆".repeat(5 - book.rating)}</div>
+            <p class="muted">${escapeHtml(book.review)}</p>
+          </div>
+        </article>
+      `).join("") : `<article class="card muted">Пока нет подтвержденных книг.</article>`}
+    </section>
+
+    <h2>Открытые наклейки</h2>
+    <section class="rewards">
+      ${unlocked.length ? unlocked.map(reward => `
+        <article class="card reward">
+          <div class="medal">${reward.icon}</div>
+          <strong>${escapeHtml(reward.title)}</strong>
+          <span class="muted">${escapeHtml(reward.text)} · +5 монет</span>
+        </article>
+      `).join("") : `<article class="card muted">Наклейки еще впереди.</article>`}
+    </section>
+
+    <h2>Что Адель узнала</h2>
+    <section class="finds">
+      ${finds.length ? finds.map(entry => `
+        <article class="find">
+          <strong>${escapeHtml(entry.title)} · ${entry.pages} стр.</strong>
+          <div class="muted">${escapeHtml(entry.learned)}</div>
+        </article>
+      `).join("") : `<article class="card muted">Здесь появятся книжные находки.</article>`}
+    </section>
+
+    <div class="footer">Читательский квест Адель</div>
+  </main>
+  <button class="print-button" onclick="window.print()">Печать / PDF</button>
+</body>
+</html>`;
+    }
+
+    function currentRewardIds(s = state) {
+      return new Set([...(s.unlockedRewards || []), ...earnedRewardIds(s)]);
+    }
+
+    function showApprovalResult(beforeRewardIds, fallbackMessage, bonusMessage = "") {
+      const opened = rewards.filter(reward => reward.test(state) && !beforeRewardIds.has(reward.id));
+      if (opened.length) {
+        showMissionNotice(`Наклейка открыта: ${opened[0].title}! +5 монет${bonusMessage ? `. ${bonusMessage}` : ""}`);
+        return;
+      }
+
+      showMissionNotice(bonusMessage ? `${fallbackMessage}. ${bonusMessage}` : fallbackMessage);
+    }
+
+    function approveEntry(id) {
+      if (!adultGate()) return;
+      const beforeRewardIds = currentRewardIds();
+      const beforeStreakCoins = baseMetrics().streakCoins;
+      const entry = state.entries.find(item => item.id === id);
+      state.entries = state.entries.map(entry => entry.id === id ? { ...entry, status: "approved" } : entry);
+      saveState();
+      render();
+      switchScreen("map");
+      const streakGain = Math.max(0, baseMetrics().streakCoins - beforeStreakCoins);
+      const bonusMessage = streakGain ? `Серия чтения: +${streakGain} монет` : "";
+      showApprovalResult(beforeRewardIds, `Печать взрослого есть! +${Number(entry?.pages || 0)} монеток`, bonusMessage);
+    }
+
+    function approveBook(id) {
+      if (!adultGate()) return;
+      const beforeRewardIds = currentRewardIds();
+      state.books = state.books.map(book => book.id === id ? { ...book, status: "approved" } : book);
+      saveState();
+      render();
+      switchScreen("shelf");
+      showApprovalResult(beforeRewardIds, "Книга подтверждена! +25 монеток");
+    }
+
+    $("#readingForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const title = $("#entryTitle").value.trim();
+      const pages = Number($("#entryPages").value);
+      const learned = $("#entryLearned").value.trim();
+
+      if (!title || !pages || !learned) return;
+
+      state.entries.push({
+        id: makeId(),
+        date: today(),
+        title,
+        pages,
+        learned,
+        status: "pending",
+        createdAt: new Date().toISOString()
+      });
+      saveState();
+      render();
+      event.target.reset();
+
+      showMissionNotice("Миссия записана! Монетки появятся после печати взрослого");
+      switchScreen("journal");
+    });
+
+    $("#fillLucky").addEventListener("click", () => {
+      const field = $("#entryLearned");
+      const phrase = luckyStarts[Math.floor(Math.random() * luckyStarts.length)];
+      field.value = field.value || phrase;
+      field.focus();
+    });
+
+    $("#bookForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const title = $("#bookTitle").value.trim();
+      const author = "Автор не указан";
+      const review = $("#bookReview").value.trim();
+      if (!title || !review) return;
+
+      state.books.push({
+        id: makeId(),
+        title,
+        author,
+        review,
+        rating: state.selectedRating,
+        color: state.selectedCover,
+        status: "pending",
+        finishedAt: today()
+      });
+      saveState();
+      render();
+      event.target.reset();
+      state.selectedRating = 0;
+      saveState();
+      switchTab("books");
+      switchScreen("journal");
+      showMissionNotice("Книга записана! 25 монет появятся после печати взрослого");
+    });
+
+    document.addEventListener("click", event => {
+      const screenTarget = event.target.closest("[data-screen-target]");
+      if (screenTarget) switchScreen(screenTarget.dataset.screenTarget);
+
+      const tab = event.target.closest("[data-tab]");
+      if (tab) switchTab(tab.dataset.tab);
+
+      const exportReportButton = event.target.closest("[data-export-summer-report]");
+      if (exportReportButton) {
+        exportSummerReport();
+      }
+
+      const cover = event.target.closest("[data-cover]");
+      if (cover && !cover.disabled) {
+        state.selectedCover = cover.dataset.cover;
+        saveState();
+        renderControls();
+      }
+
+      const rating = event.target.closest("[data-rating]");
+      if (rating) {
+        state.selectedRating = Number(rating.dataset.rating);
+        saveState();
+        renderControls();
+      }
+
+      const approveEntryButton = event.target.closest("[data-approve-entry]");
+      if (approveEntryButton) {
+        approveEntry(approveEntryButton.dataset.approveEntry);
+      }
+
+      const approveBookButton = event.target.closest("[data-approve-book]");
+      if (approveBookButton) {
+        approveBook(approveBookButton.dataset.approveBook);
+      }
+
+      const deleteBook = event.target.closest("[data-delete-book]");
+      if (deleteBook) {
+        if (!adultGate()) return;
+        state.books = state.books.filter(book => book.id !== deleteBook.dataset.deleteBook);
+        saveState();
+        render();
+      }
+
+      const deleteEntry = event.target.closest("[data-delete-entry]");
+      if (deleteEntry) {
+        if (!adultGate()) return;
+        state.entries = state.entries.filter(entry => entry.id !== deleteEntry.dataset.deleteEntry);
+        saveState();
+        render();
+      }
+    });
+
+    function switchTab(name) {
+      document.querySelectorAll(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.tab === name));
+      $("#booksDrawer").classList.toggle("active", name === "books");
+      $("#addBookDrawer").classList.toggle("active", name === "addBook");
+      if (name === "addBook") {
+        state.selectedRating = 0;
+        saveState();
+        renderControls();
+      }
+    }
+
+    function switchScreen(name) {
+      if (name === "shelf") switchTab("books");
+
+      document.querySelectorAll("[data-screen]").forEach(screen => {
+        screen.classList.toggle("active", screen.dataset.screen === name);
+      });
+      document.querySelectorAll("[data-screen-target]").forEach(button => {
+        button.classList.toggle("active", button.dataset.screenTarget === name);
+      });
+      resetScreenScroll(name);
+    }
+
+    function resetScreenScroll(name) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      const activeScreen = document.querySelector(`[data-screen="${name}"]`);
+      activeScreen?.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      activeScreen?.querySelectorAll(".shelf, .timeline, .panel-body").forEach(element => {
+        element.scrollTop = 0;
+        element.scrollLeft = 0;
+      });
+    }
+
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    render();
+    switchScreen("mission");
+
+    window.addEventListener("load", () => {
+      resetScreenScroll("mission");
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js");
+      });
+    }
+  </script>
+</body>
+</html>

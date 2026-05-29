@@ -1,0 +1,19 @@
+{
+  "name": "Читательский квест Адель",
+  "short_name": "Квест чтения",
+  "description": "Летний читательский трекер с миссиями, монетками и наградами.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eef4ff",
+  "theme_color": "#765be0",
+  "icons": [
+    {
+      "src": "assets/shared/icon.png",
+      "sizes": "1058x1046",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
