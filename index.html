@@ -874,11 +874,15 @@
     }
 
    .book {
-  min-height: 190px;
+  min-height: 0;
   display: grid;
-  grid-template-rows: 112px auto;
+  grid-template-columns: 96px minmax(0, 1fr);
+  grid-template-rows: auto;
+  align-items: start;
+  gap: 16px;
   width: 100%;
   min-width: 0;
+  padding: 18px;
   border-radius: 22px;
   border: 1px solid rgba(115, 88, 221, 0.12);
   background: rgba(255,255,255,0.92);
@@ -887,20 +891,24 @@
 }
 
     .cover {
-      display: grid;
-      place-items: center;
-      padding: 12px;
-      color: rgba(36,48,67,0.78);
-      font-size: 2.4rem;
-      background: var(--book-color, var(--sky));
-      border-bottom: 1px solid rgba(36,48,67,0.06);
-    }
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  color: rgba(36,48,67,0.78);
+  font-size: 2.1rem;
+  background: var(--book-color, var(--sky));
+  border-bottom: 0;
+}
 
     .book-info {
-  padding: 10px;
-  display: grid;
-  gap: 6px;
   min-width: 0;
+  padding: 4px 0 0;
+  display: grid;
+  align-content: start;
+  gap: 8px;
 }
 
     .book-info strong {
