@@ -869,10 +869,10 @@
 }
 
     .shelf-actions {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
+  display: grid;
+  gap: 8px;
+  margin-top: 0;
+}
 
    .book {
   min-height: 0;
@@ -1854,16 +1854,16 @@
     }
 
     .books-list-block {
-      padding: 28px 18px 0;
-      display: grid;
-      grid-template-rows: minmax(0, 1fr) auto;
-      max-height: min(58vh, 520px);
-      min-height: 260px;
-    }
+  padding: 28px 18px 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: start;
+  gap: 18px;
+  min-height: 0;
+}
 
     .books-list-block .shelf {
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible;
   padding-right: 0;
   overscroll-behavior: contain;
 }
