@@ -927,25 +927,27 @@
     }
 
     .mini-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
-      gap: 6px;
-      margin-top: 2px;
-    }
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  margin-top: 4px;
+}
 
     .mini {
-      min-height: 30px;
-      border-radius: 12px;
-      background: #f2f5f8;
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
+  min-height: 38px;
+  width: 100%;
+  border-radius: 14px;
+  background: #f2f5f8;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.88rem;
+}
 
-    .mini.approve {
-      color: #fff;
-      background: linear-gradient(90deg, var(--plum), var(--blue));
-    }
+   .mini.approve {
+  color: #fff;
+  background: linear-gradient(90deg, var(--plum), var(--blue));
+  box-shadow: none;
+}
 
     .empty {
       padding: 18px;
@@ -962,15 +964,21 @@
       gap: 10px;
     }
 
-    .entry {
-      display: grid;
-      gap: 7px;
-      padding: 13px;
-      border: 1px solid rgba(115, 88, 221, 0.12);
-      border-radius: 22px;
-      background: rgba(255,255,255,0.9);
-      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.9);
-    }
+   .entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto;
+  align-content: start;
+  gap: 8px;
+  padding: 14px 0 18px 16px;
+  min-height: 0;
+  border: 0;
+  border-left: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  position: relative;
+}
 
     .entry-head {
       display: grid;
@@ -1711,13 +1719,19 @@
     .entry.type-book { --entry-icon: url("assets/journal/journal-books.png"); }
     .entry.type-entry { --entry-icon: url("assets/journal/journal-quote.png"); }
 
-    .entry-head {
-      font-size: 1.02rem;
-    }
+   .entry-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  font-size: 1.02rem;
+}
 
     .entry p {
-      font-size: 0.94rem;
-    }
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.28;
+}
 
     .status.pending {
       color: #ff6a20;
